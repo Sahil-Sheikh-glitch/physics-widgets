@@ -1,74 +1,243 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Coulomb's Law</title>
+<meta charset="UTF-8">
+<title>Coulomb's Law Simulator</title>
+
 <style>
+
 body{
-font-family:Arial;
-padding:40px;
+background:#0d0d0d;
+font-family:Arial, sans-serif;
+color:white;
+margin:0;
+padding:20px;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:900px;
+background:#1b1b1b;
+border-radius:20px;
+padding:25px;
+}
+
+h1{
 text-align:center;
-background:#111;
+margin-bottom:20px;
+}
+
+.main{
+display:flex;
+gap:30px;
+}
+
+.left{
+flex:1;
+}
+
+.right{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+input[type=range]{
+width:100%;
+}
+
+.value{
+margin-bottom:15px;
+}
+
+.charge-area{
+position:relative;
+width:350px;
+height:200px;
+}
+
+.charge{
+width:70px;
+height:70px;
+border-radius:50%;
+position:absolute;
+top:65px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:30px;
+font-weight:bold;
 color:white;
 }
 
-input{
-width:300px;
+.positive{
+background:#f0c34a;
 }
 
-.box{
-background:#222;
-padding:20px;
-border-radius:15px;
-max-width:500px;
-margin:auto;
+.negative{
+background:#4aa3ff;
 }
+
+#q1ball{
+left:30px;
+}
+
+#q2ball{
+right:30px;
+}
+
+.arrow{
+position:absolute;
+font-size:35px;
+top:20px;
+}
+
+#leftArrow{
+left:20px;
+}
+
+#rightArrow{
+right:20px;
+}
+
+.formula{
+margin-top:20px;
+padding:10px;
+background:#111;
+border-radius:10px;
+}
+
+.result{
+font-size:28px;
+font-weight:bold;
+margin-top:15px;
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="box">
+<div class="container">
 
-<h1>Coulomb's Law</h1>
+<h1>Coulomb's Law Simulator</h1>
 
-<p>q₁ = <span id="q1value">5</span></p>
+<div class="main">
 
-<input
-type="range"
-min="-10"
-max="10"
-value="5"
-id="q1"
->
+<div class="left">
 
-<p>Force:</p>
+<div class="value">
+q₁ = <span id="q1Value">3</span> μC
+<br>
+<input type="range" id="q1" min="-10" max="10" value="3">
+</div>
 
-<h2 id="result"></h2>
+<div class="value">
+q₂ = <span id="q2Value">-3</span> μC
+<br>
+<input type="range" id="q2" min="-10" max="10" value="-3">
+</div>
+
+<div class="value">
+Distance r = <span id="rValue">4</span> m
+<br>
+<input type="range" id="r" min="1" max="10" value="4">
+</div>
+
+<div class="formula">
+
+<div id="equation">
+F = k(q₁q₂)/r²
+</div>
+
+<div id="substitution">
+</div>
+
+<div class="result" id="force">
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+
+<div class="charge-area">
+
+<div id="leftArrow" class="arrow">←</div>
+<div id="rightArrow" class="arrow">→</div>
+
+<div id="q1ball" class="charge positive">+</div>
+<div id="q2ball" class="charge negative">−</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-const k = 9;
+const q1=document.getElementById("q1");
+const q2=document.getElementById("q2");
+const r=document.getElementById("r");
 
 function update(){
 
-let q1 =
-document.getElementById("q1").value;
+let charge1=parseFloat(q1.value);
+let charge2=parseFloat(q2.value);
+let distance=parseFloat(r.value);
 
-document.getElementById("q1value")
-.innerText = q1;
+document.getElementById("q1Value").innerText=charge1;
+document.getElementById("q2Value").innerText=charge2;
+document.getElementById("rValue").innerText=distance;
 
-let F = k * q1;
+let force=
+(8.99*charge1*charge2)/
+(distance*distance);
 
-document.getElementById("result")
-.innerText =
-F.toFixed(2)+" N";
+document.getElementById("force").innerText=
+force.toFixed(2)+" N";
+
+document.getElementById("substitution").innerText=
+`F = (8.99 × ${charge1} × ${charge2}) / ${distance}²`;
+
+let q1ball=document.getElementById("q1ball");
+let q2ball=document.getElementById("q2ball");
+
+q1ball.className=
+"charge " + (charge1>=0?"positive":"negative");
+
+q2ball.className=
+"charge " + (charge2>=0?"positive":"negative");
+
+q1ball.innerText=charge1>=0?"+":"−";
+q2ball.innerText=charge2>=0?"+":"−";
+
+let attraction=(charge1*charge2)<0;
+
+if(attraction){
+
+document.getElementById("leftArrow").innerText="→";
+document.getElementById("rightArrow").innerText="←";
+
+}
+else{
+
+document.getElementById("leftArrow").innerText="←";
+document.getElementById("rightArrow").innerText="→";
 
 }
 
-document
-.getElementById("q1")
-.addEventListener("input",update);
+}
+
+q1.addEventListener("input",update);
+q2.addEventListener("input",update);
+r.addEventListener("input",update);
 
 update();
 
