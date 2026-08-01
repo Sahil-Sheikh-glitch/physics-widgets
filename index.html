@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Coulomb's Law</title>
+<style>
+body{
+font-family:Arial;
+padding:40px;
+text-align:center;
+background:#111;
+color:white;
+}
+
+input{
+width:300px;
+}
+
+.box{
+background:#222;
+padding:20px;
+border-radius:15px;
+max-width:500px;
+margin:auto;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+
+<h1>Coulomb's Law</h1>
+
+<p>q₁ = <span id="q1value">5</span></p>
+
+<input
+type="range"
+min="-10"
+max="10"
+value="5"
+id="q1"
+>
+
+<p>Force:</p>
+
+<h2 id="result"></h2>
+
+</div>
+
+<script>
+
+const k = 9;
+
+function update(){
+
+let q1 =
+document.getElementById("q1").value;
+
+document.getElementById("q1value")
+.innerText = q1;
+
+let F = k * q1;
+
+document.getElementById("result")
+.innerText =
+F.toFixed(2)+" N";
+
+}
+
+document
+.getElementById("q1")
+.addEventListener("input",update);
+
+update();
+
+</script>
+
+</body>
+</html>
