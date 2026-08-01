@@ -89,11 +89,30 @@ transform:translateY(-50%);
 <div class="title">
 E ∝ 1/r²
 </div>
+<div style="padding:0 25px 20px 25px;">
 
-<div class="arrow up">↑</div>
-<div class="arrow down">↓</div>
-<div class="arrow left">←</div>
-<div class="arrow right">→</div>
+<label>
+Charge Type:
+</label>
+
+<select id="polarity">
+
+<option value="positive">
+Positive
+</option>
+
+<option value="negative">
+Negative
+</option>
+
+</select>
+
+</div>
+  
+<div id="up" class="arrow up">↑</div>
+<div id="down" class="arrow down">↓</div>
+<div id="left" class="arrow left">←</div>
+<div id="right" class="arrow right">→</div>
 
 <div class="charge">
 +
@@ -101,5 +120,55 @@ E ∝ 1/r²
 
 </div>
 
+  <script>
+
+const polarity =
+document.getElementById("polarity");
+
+const up =
+document.getElementById("up");
+
+const down =
+document.getElementById("down");
+
+const left =
+document.getElementById("left");
+
+const right =
+document.getElementById("right");
+
+const charge =
+document.querySelector(".charge");
+
+polarity.addEventListener(
+"change",
+()=>{
+
+if(
+polarity.value==="positive"
+){
+
+up.innerHTML="↑";
+down.innerHTML="↓";
+left.innerHTML="←";
+right.innerHTML="→";
+
+charge.innerHTML="+";
+
+}
+else{
+
+up.innerHTML="↓";
+down.innerHTML="↑";
+left.innerHTML="→";
+right.innerHTML="←";
+
+charge.innerHTML="−";
+
+}
+
+});
+
+</script>
 </body>
 </html>
